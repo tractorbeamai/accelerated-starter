@@ -106,19 +106,27 @@ Note: Always type check, format, and lint updated files. Use full builds sparing
 - `src/routes/__root.tsx` - root layout with Header and Outlet
 - `src/routes/index.tsx` - home page
 - `src/routes/` - all routes (file-based routing via TanStack Router)
+- `src/routeTree.gen.ts` - auto-generated route tree (don't edit directly)
+- `src/router.tsx` - router configuration
 - `src/components/` - shared components
 - `src/components/ui/` - shadcn/ui components (managed by CLI, don't edit directly)
+- `src/components/ai-elements/` - AI-powered UI components (conversation, message, prompt-input, response)
 - `src/components/Header.tsx` - main navigation header
 - `src/db/` - database layer with Drizzle ORM
 - `src/db/schema.ts` - Drizzle table schemas with drizzle-zod integration
 - `src/db/client.ts` - database connection and Drizzle instance
+- `src/db/seed.ts` - database seeding script
+- `src/lib/` - utilities and helper functions
 - `src/lib/utils.ts` - utility functions including `cn()` for className merging
+- `src/lib/env-client.ts` - client-side environment variables
+- `src/lib/env-server.ts` - server-side environment variables
+- `src/lib/demo-store.ts` - example TanStack Store (safe to delete)
 - `src/store/` - TanStack Store state management
 - `src/trpc/` - tRPC setup and router (includes Drizzle examples)
-- `src/integrations/` - third-party integrations (TanStack Query, etc.)
 - `src/styles.css` - global styles and Tailwind configuration with CSS variables
 - `src/data/` - static data and mock data
-- `drizzle/` - database migrations (auto-generated)
+- `src/utils/` - additional utilities
+- `migrations/` - database migrations (auto-generated)
 - `drizzle.config.ts` - Drizzle Kit configuration
 - `components.json` - shadcn/ui configuration
 - `vite.config.ts` - Vite configuration
@@ -217,10 +225,31 @@ Note: Always type check, format, and lint updated files. Use full builds sparing
 - database client exported from `src/db/client.ts` as `db`
 - use Drizzle query builder for type-safe SQL queries
 - integrate with tRPC by using drizzle-zod schemas as procedure inputs
-- migrations stored in `drizzle/` directory (auto-generated via `pnpm db:generate`)
+- migrations stored in `migrations/` directory (auto-generated via `pnpm db:generate`)
 - example: see `postRouter` in `src/trpc/router.ts` for Drizzle + tRPC + Zod integration
-- use `pnpm db:push` for rapid prototyping (pushes schema without migrations)
-- use `pnpm db:generate` and `pnpm db:migrate` for proper migration workflow
+
+**CRITICAL: Database Migration Workflow**
+
+**During Local Development:**
+
+- **ALWAYS use `pnpm db:push`** to sync schema changes to your local database
+- This is FAST and iterates quickly without creating migration files
+- Changes are applied directly to the database without generating migration history
+- Use this for all local development and prototyping work
+
+**Before Deploying or Pushing to Git:**
+
+- **MUST generate migrations** before deployment/pushing code
+- Run `pnpm db:generate` to create migration files from schema changes
+- This creates proper migration files in `migrations/` directory
+- Commit these migration files to git
+- In production/staging, use `pnpm db:migrate` to apply migrations
+- Never use `pnpm db:push` in production - it bypasses migration history
+
+**Summary:**
+
+- Local dev: `pnpm db:push` (fast, no migrations)
+- Before deploy: `pnpm db:generate` → commit migrations → deploy → `pnpm db:migrate`
 
 ### AI integration
 

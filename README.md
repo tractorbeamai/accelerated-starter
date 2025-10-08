@@ -28,26 +28,9 @@ A modern React starter template for building visually impressive demos quickly. 
 pnpm install
 ```
 
-### 2. Set up Neon Database
+### 2. Vercel / Neon Setup
 
-This project uses [Neon](https://neon.tech) for serverless Postgres with database branching.
-
-```bash
-# Authenticate with Neon
-neon auth
-
-# Create a new project (or use existing one)
-neon projects create --name vibe-starter
-
-# Set project context (so you don't need to pass project ID each time)
-neon set-context --org-id $ORG_ID --project-id $PROJECT_ID
-
-# Create a development branch
-neon branches create --name local-dev
-
-# Get your connection string
-neon connection-string
-```
+_Don't worry about this, I've done it for you._
 
 ### 3. Set up environment variables
 
@@ -55,12 +38,15 @@ Create a `.env.local` file in the project root:
 
 ```bash
 cat > .env.local << 'EOF'
-DATABASE_URL=your_neon_connection_string
 ANTHROPIC_API_KEY=your_key_here
 EOF
 ```
 
-**Tip:** You can also get your connection string from the [Neon Console](https://console.neon.tech).
+Pull the development environment variables from the Vercel project.
+
+```bash
+pnpm vercel env pull .env.development.local
+```
 
 ### 4. Set up the database
 
@@ -89,22 +75,32 @@ src/
 │   ├── index.tsx       # Home page
 │   ├── api.trpc.$.ts   # tRPC API endpoint
 │   └── example/        # Example routes (safe to delete)
+├── routeTree.gen.ts    # Auto-generated route tree (don't edit)
+├── router.tsx          # Router configuration
 ├── components/          # React components
 │   ├── ui/             # shadcn/ui components (managed by CLI)
 │   ├── ai-elements/    # AI-powered UI components
 │   └── Header.tsx      # Navigation header
 ├── db/                 # Database layer
 │   ├── schema.ts       # Database schema (Drizzle ORM + drizzle-zod)
-│   └── client.ts       # Database connection
-├── lib/                # Utilities and stores
+│   ├── client.ts       # Database connection
+│   └── seed.ts         # Database seeding script
+├── lib/                # Utilities and helpers
 │   ├── utils.ts        # cn() for className merging
+│   ├── env-client.ts   # Client-side environment variables
+│   ├── env-server.ts   # Server-side environment variables
 │   └── demo-store.ts   # Example TanStack Store (safe to delete)
+├── store/              # TanStack Store state management
 ├── trpc/               # tRPC setup and routers
 │   ├── init.ts         # tRPC initialization
 │   ├── router.ts       # API routes
+│   ├── react.ts        # tRPC React client
 │   └── provider.tsx    # tRPC provider
 ├── data/               # Static/mock data
+├── utils/              # Additional utilities
 └── styles.css          # Global styles and Tailwind config
+
+migrations/             # Database migrations (auto-generated)
 ```
 
 ## 🎯 Common Tasks
@@ -385,16 +381,16 @@ The project includes example files to demonstrate patterns:
 
 ## 📖 Documentation
 
-- [TanStack Start](https://tanstack.com/start)
-- [TanStack Router](https://tanstack.com/router)
-- [TanStack Store](https://tanstack.com/store)
-- [TanStack Query](https://tanstack.com/query)
+- [TanStack Start](https://tanstack.com/start/latest/docs)
+- [TanStack Router](https://tanstack.com/router/latest/docs)
+- [TanStack Store](https://tanstack.com/store/latest/docs)
+- [TanStack Query](https://tanstack.com/query/latest/docs)
 - [Drizzle ORM](https://orm.drizzle.team/)
 - [drizzle-zod](https://orm.drizzle.team/docs/zod)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [shadcn/ui](https://ui.shadcn.com/)
 - [tRPC](https://trpc.io/)
-- [AI SDK](https://sdk.vercel.ai/)
+- [AI SDK](https://ai-sdk.dev/)
 - [Motion](https://motion.dev/)
 
 ## 🎯 Philosophy
