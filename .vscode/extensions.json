@@ -1,0 +1,19 @@
+{
+  "recommendations": [
+    // Code quality & formatting
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // Tailwind CSS
+    "bradlc.vscode-tailwindcss",
+
+    // ErrorLens
+    "usernamehw.errorlens",
+
+    // Path Intellisense
+    "christian-kohler.path-intellisense",
+
+    // Todo Highlight
+    "wayou.vscode-todo-highlight"
+  ]
+}
