@@ -1,4 +1,4 @@
-# Vibe Starter
+# Macomnics
 
 A modern React starter template for building visually impressive demos quickly. Built with TanStack Start, React 19, Tailwind CSS v4, and AI integration.
 
