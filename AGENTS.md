@@ -279,3 +279,7 @@ Note: Always type check, format, and lint updated files. Use full builds sparing
 - good references for learning project patterns
 - `src/routes/example/` directory contains example routes showcasing various features
 - `src/db/schema.ts` contains an example `posts` table - replace with your own schema
+
+# Agent Rules <!-- tessl-managed -->
+
+@.tessl/RULES.md follow the [instructions](.tessl/RULES.md)

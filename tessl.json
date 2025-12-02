@@ -1,0 +1,83 @@
+{
+  "name": "project",
+  "dependencies": {
+    "tessl/npm-ai-sdk--react": {
+      "version": "2.0.0"
+    },
+    "tessl/npm-ai": {
+      "version": "5.0.1"
+    },
+    "tessl/npm-clsx": {
+      "version": "2.1.0"
+    },
+    "tessl/npm-drizzle-orm": {
+      "version": "0.44.0"
+    },
+    "tessl/npm-lucide-react": {
+      "version": "0.542.0"
+    },
+    "tessl/npm-motion": {
+      "version": "12.23.0"
+    },
+    "tessl/npm-postcss": {
+      "version": "8.5.0"
+    },
+    "tessl/npm-react": {
+      "version": "19.2.0"
+    },
+    "tessl/npm-react-dom": {
+      "version": "19.2.0"
+    },
+    "tessl/npm-tailwindcss": {
+      "version": "4.1.0"
+    },
+    "tessl/npm-vite-tsconfig-paths": {
+      "version": "5.1.1"
+    },
+    "tessl/npm-zod": {
+      "version": "4.1.1"
+    },
+    "tessl/npm-eslint--eslintrc": {
+      "version": "3.3.0"
+    },
+    "tessl/npm-vitejs--plugin-react": {
+      "version": "5.1.0"
+    },
+    "tessl/npm-eslint": {
+      "version": "9.34.0"
+    },
+    "tessl/npm-eslint-config-prettier": {
+      "version": "10.1.0"
+    },
+    "tessl/npm-eslint-plugin-react": {
+      "version": "7.37.0"
+    },
+    "tessl/npm-prettier": {
+      "version": "3.6.0"
+    },
+    "tessl/npm-prettier-plugin-tailwindcss": {
+      "version": "0.6.0"
+    },
+    "tessl/npm-tsx": {
+      "version": "4.20.0"
+    },
+    "tessl/npm-typescript": {
+      "version": "5.9.0"
+    },
+    "tessl/npm-vite": {
+      "version": "7.1.0"
+    },
+    "tessl/npm-web-vitals": {
+      "version": "5.1.0"
+    },
+    "tessl/npm-tanstack--react-start": {
+      "version": "1.132.0"
+    },
+    "tessl/npm-tanstack--react-query": {
+      "version": "5.87.0"
+    },
+    "tessl/npm-knip": {
+      "version": "5.63.0"
+    }
+  }
+}
