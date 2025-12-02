@@ -99,7 +99,7 @@ function ChatPage() {
           <PromptInputSubmit
             status={status === "streaming" ? "streaming" : "ready"}
             disabled={!input.trim()}
-            className="absolute bottom-1 right-1"
+            className="absolute right-1 bottom-1"
           />
         </PromptInput>
       </div>

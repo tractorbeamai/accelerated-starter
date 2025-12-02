@@ -282,7 +282,7 @@ export function PromptInputAttachment({
           width={56}
         />
       ) : (
-        <div className="text-muted-foreground flex size-full max-w-full cursor-pointer items-center justify-start gap-2 overflow-hidden px-2">
+        <div className="flex size-full max-w-full cursor-pointer items-center justify-start gap-2 overflow-hidden px-2 text-muted-foreground">
           <PaperclipIcon className="size-4 shrink-0" />
           <Tooltip delayDuration={400}>
             <TooltipTrigger className="min-w-0 flex-1">
@@ -291,8 +291,8 @@ export function PromptInputAttachment({
               </h4>
             </TooltipTrigger>
             <TooltipContent>
-              <div className="text-muted-foreground text-xs">
-                <h4 className="max-w-[240px] overflow-hidden whitespace-normal break-words text-left text-sm font-semibold">
+              <div className="text-xs text-muted-foreground">
+                <h4 className="max-w-[240px] overflow-hidden text-left text-sm font-semibold break-words whitespace-normal">
                   {data.filename || "Unknown file"}
                 </h4>
                 {data.mediaType && <div>{data.mediaType}</div>}
@@ -303,7 +303,7 @@ export function PromptInputAttachment({
       )}
       <Button
         aria-label="Remove attachment"
-        className="absolute -right-1.5 -top-1.5 h-6 w-6 rounded-full opacity-0 group-hover:opacity-100"
+        className="absolute -top-1.5 -right-1.5 h-6 w-6 rounded-full opacity-0 group-hover:opacity-100"
         onClick={() => {
           attachments.remove(data.id);
         }}
@@ -1140,7 +1140,7 @@ export const PromptInputSpeechButton = ({
     <PromptInputButton
       className={cn(
         "relative transition-all duration-200",
-        isListening && "bg-accent text-accent-foreground animate-pulse",
+        isListening && "animate-pulse bg-accent text-accent-foreground",
         className,
       )}
       disabled={!recognition}
@@ -1168,7 +1168,7 @@ export const PromptInputModelSelectTrigger = ({
 }: PromptInputModelSelectTriggerProps) => (
   <SelectTrigger
     className={cn(
-      "text-muted-foreground border-none bg-transparent font-medium shadow-none transition-colors",
+      "border-none bg-transparent font-medium text-muted-foreground shadow-none transition-colors",
       'hover:bg-accent hover:text-foreground [&[aria-expanded="true"]]:bg-accent [&[aria-expanded="true"]]:text-foreground',
       className,
     )}

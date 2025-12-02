@@ -1,64 +1,85 @@
 # Macomnics
 
-A modern React starter template for building visually impressive demos quickly. Built with TanStack Start, React 19, Tailwind CSS v4, and AI integration.
-
-**This is a demo/prototype starter, not production software.** The goal is to build beautiful, fire demos in days, not months.
+A modern React starter template for building visually impressive demos quickly. Built with TanStack Start, React 19, shadcn/ui, Tailwind CSS v4, and Claude.
 
 ## ✨ Features
 
 - 🚀 **React 19** with functional components and hooks
-- 🎯 **TanStack Start** for full-stack React with client-side rendering
-- 🧭 **TanStack Router** with file-based routing
-- 📦 **TanStack Store** for state management
-- 🔄 **TanStack Query** for data fetching and caching
-- 🔌 **tRPC** for type-safe API routes
-- 🗄️ **Drizzle ORM** with Neon Postgres and drizzle-zod integration
-- ☁️ **Neon Database** with branching for development
-- 🎨 **Tailwind CSS v4** with semantic color variables
-- 🧩 **shadcn/ui** components (new-york style)
-- 🤖 **AI Integration** with Anthropic Claude (via AI SDK)
-- ✨ **Motion** for smooth animations and transitions
+- 🎯 **[TanStack Start](https://tanstack.com/start/latest/docs)** for full-stack React with client-side rendering
+- 🧭 **[TanStack Router](https://tanstack.com/router/latest/docs)** with file-based routing
+- 📦 **[TanStack Store](https://tanstack.com/store/latest/docs)** for state management
+- 🔄 **[TanStack Query](https://tanstack.com/query/latest/docs)** for data fetching and caching
+- 🔌 **Server Functions** for type-safe server-side logic
+- 🗄️ **[Drizzle ORM](https://orm.drizzle.team/)** with Neon Postgres and [drizzle-zod](https://orm.drizzle.team/docs/zod) integration
+- ☁️ **[Neon Database](https://neon.tech/docs)** with branching for development
+- 🎨 **[Tailwind CSS v4](https://tailwindcss.com/)** with semantic color variables
+- 🧩 **[shadcn/ui](https://ui.shadcn.com/)** components (new-york style)
+- 🤖 **[AI SDK](https://ai-sdk.dev/)** with Anthropic Claude
+- ✨ **[Motion](https://motion.dev/)** for smooth animations and transitions
 - 📝 **TypeScript** with strict mode and path aliases
 
 ## 🚀 Quick Start
 
-### 1. Install dependencies
+### Prerequisites
+
+- Node.js v22.12.0+
+- pnpm (`npm install -g pnpm`)
+- Vercel CLI (`npm install -g vercel`)
+- Anthropic API key ([console.anthropic.com](https://console.anthropic.com/settings/keys))
+
+### 1. Deploy to Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](<https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftractorbeamai%2Faccelerated-starter&env=ANTHROPIC_API_KEY&envDescription=API%20key%20for%20Anthropic%20Claude%20(required%20for%20AI%20features)&envLink=https%3A%2F%2Fconsole.anthropic.com%2Fsettings%2Fkeys&project-name=accelerated-starter&products=%5B%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22storage%22%2C%22productSlug%22%3A%22neon%22%2C%22integrationSlug%22%3A%22neon%22%7D%5D>)
+
+1. Click the **Deploy with Vercel** button above
+2. Sign in to Vercel and GitHub if needed
+3. When prompted, configure the Neon Postgres integration:
+   - Set **Auth** to `false`
+   - Check **Branch for Preview** only (leave Production unchecked)
+4. Enter your `ANTHROPIC_API_KEY` when prompted
+5. Click **Deploy**
+
+This will:
+
+- Clone the repo to your GitHub account
+- Create a Vercel project
+- Provision a Neon Postgres database with branching
+- Deploy your app
+
+### 2. Clone your repo locally
+
+```bash
+git clone <your-repo-url>
+cd accelerated-starter
+```
+
+### 3. Install dependencies
 
 ```bash
 pnpm install
 ```
 
-### 2. Vercel / Neon Setup
-
-_Don't worry about this, I've done it for you._
-
-### 3. Set up environment variables
-
-Create a `.env.local` file in the project root:
+### 4. Link to Vercel and pull environment
 
 ```bash
-cat > .env.local << 'EOF'
-ANTHROPIC_API_KEY=your_key_here
-EOF
+vercel link    # Select your deployed project when prompted
+vercel env pull    # Creates .env.local with DATABASE_URL
 ```
 
-Pull the development environment variables from the Vercel project.
+### 5. Add Anthropic key to local env
 
 ```bash
-pnpm vercel env pull .env.development.local
+echo "ANTHROPIC_API_KEY=your_key_here" >> .env.local
 ```
 
-### 4. Set up the database
+### 6. Set up the database
 
 ```bash
-# Push schema to database
-pnpm db:push
-
-# Seed with example data (3 posts)
-pnpm db:seed
+pnpm db:push    # Push schema to Neon
+pnpm db:seed    # Optional: seed with example data
 ```
 
-### 5. Start dev server
+### 7. Start dev server
 
 ```bash
 pnpm dev
@@ -73,37 +94,89 @@ src/
 ├── routes/              # File-based routing
 │   ├── __root.tsx      # Root layout with Header and Outlet
 │   ├── index.tsx       # Home page
-│   ├── api.trpc.$.ts   # tRPC API endpoint
 │   └── example/        # Example routes (safe to delete)
 ├── routeTree.gen.ts    # Auto-generated route tree (don't edit)
 ├── router.tsx          # Router configuration
 ├── components/          # React components
 │   ├── ui/             # shadcn/ui components (managed by CLI)
 │   ├── ai-elements/    # AI-powered UI components
-│   └── Header.tsx      # Navigation header
+│   └── header.tsx      # Navigation header
 ├── db/                 # Database layer
 │   ├── schema.ts       # Database schema (Drizzle ORM + drizzle-zod)
 │   ├── client.ts       # Database connection
 │   └── seed.ts         # Database seeding script
+├── server/             # Server functions (TanStack Start)
+│   └── posts.ts        # Example server functions with query options
 ├── lib/                # Utilities and helpers
 │   ├── utils.ts        # cn() for className merging
 │   ├── env-client.ts   # Client-side environment variables
 │   ├── env-server.ts   # Server-side environment variables
 │   └── demo-store.ts   # Example TanStack Store (safe to delete)
 ├── store/              # TanStack Store state management
-├── trpc/               # tRPC setup and routers
-│   ├── init.ts         # tRPC initialization
-│   ├── router.ts       # API routes
-│   ├── react.ts        # tRPC React client
-│   └── provider.tsx    # tRPC provider
 ├── data/               # Static/mock data
 ├── utils/              # Additional utilities
 └── styles.css          # Global styles and Tailwind config
-
 migrations/             # Database migrations (auto-generated)
 ```
 
-## 🎯 Common Tasks
+## 🛠️ Commands
+
+### Database
+
+```bash
+pnpm db:push                # push schema directly (dev)
+pnpm db:generate            # generate migration from schema changes
+pnpm db:migrate             # apply migrations to database
+pnpm db:seed                # seed database with example data
+pnpm db:studio              # open Drizzle Studio GUI
+```
+
+### Development
+
+```bash
+pnpm dev                    # start dev server
+pnpm build                  # build for production
+```
+
+### Linting & Formatting (file-scoped)
+
+```bash
+pnpm lint:types path/to/file.tsx        # type check
+pnpm lint:eslint path/to/file.tsx       # lint
+pnpm format:prettier path/to/file.tsx   # format
+```
+
+### Linting & Formatting (project-wide)
+
+```bash
+pnpm lint                   # run all lints
+pnpm lint:types             # type check all files
+pnpm lint:eslint            # lint all files
+pnpm lint:format            # check formatting
+pnpm lint:knip              # check for unused code
+```
+
+## 🎨 Styling
+
+Use **Tailwind CSS v4** with semantic color variables from `src/styles.css`:
+
+```tsx
+<div className="border border-border bg-primary text-foreground">
+  <button className="bg-accent hover:bg-accent/90">Click me</button>
+</div>
+```
+
+Always use `cn()` to merge className strings:
+
+```tsx
+import { cn } from "@/lib/utils";
+
+<div className={cn("base-class", isActive && "active-class")} />;
+```
+
+---
+
+## 📚 Examples
 
 ### Add a new route
 
@@ -122,39 +195,15 @@ function AboutPage() {
 }
 ```
 
-### Add a shadcn/ui component
+### Data Fetching (Drizzle + Server Functions)
 
-```bash
-pnpx shadcn@latest add button
-```
-
-Components are added to `src/components/ui/` and ready to use.
-
-### Create a tRPC API route
-
-Add procedures to `src/trpc/router.ts`:
+**1. Define schema** in `src/db/schema.ts`:
 
 ```tsx
-import { z } from "zod";
-
-import { createTRPCRouter, publicProcedure } from "./init";
-
-export const trpcRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ name: z.string() }))
-    .query(({ input }) => {
-      return { message: `Hello ${input.name}!` };
-    }),
-});
-```
-
-### Work with Drizzle ORM
-
-Define a schema in `src/db/schema.ts`:
-
-```tsx
+// src/db/schema.ts
 import { pgTable, serial, text } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import * as z from "zod";
 
 export const posts = pgTable("posts", {
   id: serial("id").primaryKey(),
@@ -163,45 +212,68 @@ export const posts = pgTable("posts", {
 });
 
 // Auto-generate Zod schemas from Drizzle
-export const insertPostSchema = createInsertSchema(posts).omit({ id: true });
+export const selectPostSchema = createSelectSchema(posts);
+export const insertPostSchema = createInsertSchema(posts);
+export type Post = z.infer<typeof selectPostSchema>;
 ```
 
-Use in tRPC:
+**2. Create server function** in `src/server/posts.ts`:
 
 ```tsx
+// src/server/posts.ts
+import { queryOptions } from "@tanstack/react-query";
+import { createServerFn } from "@tanstack/react-start";
+
 import { db } from "@/db/client";
-import { insertPostSchema, posts } from "@/db/schema";
+import { posts, type Post } from "@/db/schema";
 
-const postRouter = {
-  list: publicProcedure.query(async () => {
+export const listPosts = createServerFn({ method: "GET" }).handler(
+  async (): Promise<Post[]> => {
     return await db.select().from(posts);
-  }),
-  create: publicProcedure
-    .input(insertPostSchema)
-    .mutation(async ({ input }) => {
-      const [post] = await db.insert(posts).values(input).returning();
-      return post;
-    }),
-};
+  },
+);
+
+export const listPostsQueryOptions = () =>
+  queryOptions({
+    queryKey: ["posts"],
+    queryFn: () => listPosts(),
+  });
 ```
 
-### Add state management
-
-Create a store:
+**3. Use in route** with loader and `useSuspenseQuery`:
 
 ```tsx
-// src/lib/counter-store.ts
-import { Store } from "@tanstack/store";
+// src/routes/posts/index.tsx
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const counterStore = new Store(0);
+import { listPostsQueryOptions } from "@/server/posts";
+
+export const Route = createFileRoute("/posts/")({
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData(listPostsQueryOptions()),
+  component: PostsPage,
+});
+
+function PostsPage() {
+  const { data: posts } = useSuspenseQuery(listPostsQueryOptions());
+  return (
+    <ul>
+      {posts.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  );
+}
 ```
 
-Use in a component:
+### State Management (TanStack Store)
 
 ```tsx
 import { useStore } from "@tanstack/react-store";
+import { Store } from "@tanstack/store";
 
-import { counterStore } from "@/lib/counter-store";
+export const counterStore = new Store(0);
 
 function Counter() {
   const count = useStore(counterStore);
@@ -213,77 +285,24 @@ function Counter() {
 }
 ```
 
-For derived state (computed values):
+### AI Chat Integration
+
+**Server route** (`src/routes/api.chat.ts`):
 
 ```tsx
-// src/lib/name-store.ts
-import { Derived, Store } from "@tanstack/store";
-
-export const nameStore = new Store({
-  firstName: "Jane",
-  lastName: "Smith",
-});
-
-export const fullName = new Derived({
-  fn: () => `${nameStore.state.firstName} ${nameStore.state.lastName}`,
-  deps: [nameStore],
-});
-
-fullName.mount();
-```
-
-### Navigate between pages
-
-```tsx
-import { Link } from "@tanstack/react-router";
-
-<Link to="/about">About</Link>;
-```
-
-## 🎨 Styling
-
-This project uses **Tailwind CSS v4** with semantic color variables:
-
-```tsx
-// Use semantic variables, not hardcoded colors
-<div className="bg-primary text-foreground border-border border">
-  <button className="bg-accent hover:bg-accent/90">Click me</button>
-</div>
-```
-
-All color variables are defined in `src/styles.css` and automatically adapt to dark mode.
-
-**Important:** Always use the `cn()` utility to merge className strings:
-
-```tsx
-import { cn } from "@/lib/utils";
-
-<div className={cn("base-class", isActive && "active-class")} />;
-```
-
-## 🤖 AI Integration
-
-AI features use Anthropic's Claude API. Requires `ANTHROPIC_API_KEY` in `.env`.
-
-### Server Route (API Endpoint)
-
-```tsx
-// src/routes/example/api.chat.ts
 import { anthropic } from "@ai-sdk/anthropic";
 import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, UIMessage } from "ai";
 
-export const Route = createFileRoute("/example/api/chat")({
+export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
         const { messages }: { messages: UIMessage[] } = await request.json();
-
         const result = streamText({
           model: anthropic("claude-sonnet-4-5-20250929"),
           messages: convertToModelMessages(messages),
         });
-
         return result.toUIMessageStreamResponse();
       },
     },
@@ -291,7 +310,7 @@ export const Route = createFileRoute("/example/api/chat")({
 });
 ```
 
-### Client Usage
+**Client usage**:
 
 ```tsx
 import { useChat } from "@ai-sdk/react";
@@ -299,122 +318,20 @@ import { DefaultChatTransport } from "ai";
 
 function Chat() {
   const { messages, sendMessage } = useChat({
-    transport: new DefaultChatTransport({
-      api: "/example/api/chat",
-    }),
+    transport: new DefaultChatTransport({ api: "/api/chat" }),
   });
-
-  return (
-    <div>
-      {messages.map((message) => (
-        <div key={message.id}>
-          {message.parts?.map((part) =>
-            part.type === "text" ? part.text : null,
-          )}
-        </div>
-      ))}
-    </div>
-  );
+  // ...
 }
 ```
 
-See `src/routes/example/chat.tsx` and `src/routes/example/api.chat.ts` for complete examples.
+See `src/routes/example/` for complete working examples.
 
-## 🗄️ Database Commands
-
-```bash
-pnpm db:generate            # generate migration from schema changes
-pnpm db:migrate             # apply migrations to database
-pnpm db:push                # push schema directly (no migrations)
-pnpm db:seed                # seed database with example data
-pnpm db:studio              # open Drizzle Studio GUI
-```
-
-## 🧪 Development
-
-```bash
-# Type check a file
-pnpm exec tsc --noEmit src/routes/index.tsx
-
-# Lint a file
-pnpm exec eslint --fix src/routes/index.tsx
-
-# Format a file
-pnpm exec prettier --write src/routes/index.tsx
-
-# Run all lints (sparingly)
-pnpm lint
-
-# Build for production
-pnpm build
-```
-
-## 📚 Tech Stack Details
-
-- **React 19** - Latest React with concurrent features
-- **TanStack Start** - Full-stack React framework (client-only rendering)
-- **TanStack Router** - File-based routing with type safety
-- **TanStack Store** - Simple, powerful state management
-- **TanStack Query** - Data fetching and caching
-- **tRPC** - End-to-end type-safe APIs
-- **Drizzle ORM** - Type-safe SQL with Neon Postgres
-- **Neon Database** - Serverless Postgres with branching
-- **drizzle-zod** - Auto-generate Zod schemas from Drizzle tables
-- **Tailwind CSS v4** - Utility-first styling
-- **shadcn/ui** - Beautiful, accessible components
-- **Motion** - Smooth animations (formerly framer-motion)
-- **Vite** - Fast build tool and dev server
-- **TypeScript** - Type safety throughout
-
-## 🗂️ Example Files
-
-The project includes example files to demonstrate patterns:
+### Example Files
 
 - `src/routes/example/chat.tsx` - AI chat interface with streaming
-- `src/routes/example/api.chat.ts` - Server route for AI chat API
-- `src/routes/example/posts/` - Dynamic routes with Drizzle ORM + tRPC + shadcn/ui
+- `src/routes/example/posts/` - Dynamic routes with Drizzle + Server Functions
+- `src/server/posts.ts` - Server functions with query options
 - `src/routes/example/store.tsx` - TanStack Store with derived state
-- `src/routes/example/rest-api.tsx` - TanStack Query data fetching demo
-- `src/lib/demo-store.ts` - Example store with derived state
+- `src/lib/demo-store.ts` - Example store (safe to delete)
 
-**You can safely delete the `src/routes/example/` directory and `src/lib/demo-store.ts` when starting your project.**
-
-## 📖 Documentation
-
-- [TanStack Start](https://tanstack.com/start/latest/docs)
-- [TanStack Router](https://tanstack.com/router/latest/docs)
-- [TanStack Store](https://tanstack.com/store/latest/docs)
-- [TanStack Query](https://tanstack.com/query/latest/docs)
-- [Drizzle ORM](https://orm.drizzle.team/)
-- [drizzle-zod](https://orm.drizzle.team/docs/zod)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [tRPC](https://trpc.io/)
-- [AI SDK](https://ai-sdk.dev/)
-- [Motion](https://motion.dev/)
-
-## 🎯 Philosophy
-
-This starter is built for **rapid demo development**:
-
-- Prioritize visual polish and "wow factor"
-- Focus on happy path, skip edge cases
-- Use AI features to showcase capabilities
-- Keep it simple and build fast
-- Beautiful demos beat perfect products
-
-See `AGENTS.md` for detailed development guidelines.
-
-## 📦 Package Manager
-
-This project uses **pnpm**. Do not use npm or yarn.
-
-```bash
-# Required versions
-node >= 22.12.0
-pnpm >= 10.18.1
-```
-
----
-
-**Ready to build something amazing?** Start by exploring the example routes, then delete them and create your own! 🎉
+**You can safely delete `src/routes/example/` and `src/lib/demo-store.ts` when starting your project.**

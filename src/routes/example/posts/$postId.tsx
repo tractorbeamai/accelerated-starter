@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { Badge } from "@/components/ui/badge";
@@ -10,26 +10,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useTRPC } from "@/trpc/react";
+import { findPostByIdQueryOptions } from "@/server/posts";
 
 export const Route = createFileRoute("/example/posts/$postId")({
+  loader: async ({ params: { postId }, context }) => {
+    await context.queryClient.ensureQueryData(
+      findPostByIdQueryOptions({ id: Number(postId) }),
+    );
+  },
   component: PostDetail,
 });
 
 function PostDetail() {
-  const trpc = useTRPC();
   const { postId } = Route.useParams();
-  const { data: post, isLoading } = useQuery(
-    trpc.posts.byId.queryOptions(+postId),
+  const { data: post } = useSuspenseQuery(
+    findPostByIdQueryOptions({ id: +postId }),
   );
-
-  if (isLoading) {
-    return (
-      <div className="container mx-auto py-8">
-        <div className="text-muted-foreground text-center">Loading...</div>
-      </div>
-    );
-  }
 
   if (!post) {
     return (
@@ -82,15 +78,15 @@ function PostDetail() {
         </CardHeader>
         <CardContent className="space-y-6">
           <div>
-            <h3 className="text-muted-foreground mb-2 text-sm font-medium">
+            <h3 className="mb-2 text-sm font-medium text-muted-foreground">
               Content
             </h3>
-            <p className="text-foreground whitespace-pre-wrap">
+            <p className="whitespace-pre-wrap text-foreground">
               {post.content}
             </p>
           </div>
 
-          <div className="text-muted-foreground flex items-center gap-4 border-t pt-6 text-sm">
+          <div className="flex items-center gap-4 border-t pt-6 text-sm text-muted-foreground">
             <div>
               <span className="font-medium">Created:</span>{" "}
               {new Date(post.createdAt).toLocaleString()}

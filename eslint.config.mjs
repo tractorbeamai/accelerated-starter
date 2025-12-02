@@ -8,6 +8,7 @@ import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginTailwind from "eslint-plugin-tailwindcss";
 import pluginUnicorn from "eslint-plugin-unicorn";
+import pluginDrizzle from "eslint-plugin-drizzle";
 import pluginZodX from "eslint-plugin-zod-x";
 import tseslint from "typescript-eslint";
 
@@ -33,7 +34,7 @@ const eslintConfig = [
   pluginUnicorn.configs.recommended,
   pluginReact.configs.flat.recommended,
   pluginReact.configs.flat["jsx-runtime"],
-  ...pluginReactHooks.configs["flat/recommended"],
+  pluginReactHooks.configs.flat["recommended-latest"],
   {
     files: ["**/*.{ts,tsx}"],
     plugins: {
@@ -117,7 +118,7 @@ const eslintConfig = [
       "unicorn/no-array-sort": "off",
       "unicorn/no-array-reverse": "off",
       "unicorn/no-zero-fractions": "off",
-      "unicorn/filename-case": "off", // Allow PascalCase for React components
+      "unicorn/filename-case": ["error", { case: "kebabCase" }],
       "unicorn/no-array-callback-reference": "off",
       "unicorn/prefer-add-event-listener": "off",
       "unicorn/consistent-function-scoping": "off",
@@ -147,6 +148,13 @@ const eslintConfig = [
       "@typescript-eslint/use-unknown-in-catch-callback-variable": "off",
     },
   },
+  // Allow non-kebab-case filenames in routes (TanStack Router file-based routing)
+  {
+    files: ["src/routes/**/*.{ts,tsx}"],
+    rules: {
+      "unicorn/filename-case": "off",
+    },
+  },
   {
     // keep synced with .prettierignore (and to a lesser extend, .gitignore)
     ignores: [
@@ -165,6 +173,10 @@ const eslintConfig = [
       ".vinxi/",
       ".output/",
       "dist/",
+
+      // root config files (not in tsconfig)
+      "*.config.ts",
+      "*.config.mjs",
     ],
   },
   configPrettier,

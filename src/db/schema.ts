@@ -1,6 +1,10 @@
 import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { z } from "zod";
+import {
+  createInsertSchema,
+  createSelectSchema,
+  createUpdateSchema,
+} from "drizzle-zod";
+import * as z from "zod";
 
 // Example posts table with drizzle-zod integration
 export const posts = pgTable("posts", {
@@ -15,14 +19,17 @@ export const posts = pgTable("posts", {
 });
 
 // Zod schemas generated from Drizzle schema
+export const postIdSchema = z.object({
+  id: z.int().positive(),
+});
 export const selectPostSchema = createSelectSchema(posts);
-export const insertPostSchema = createInsertSchema(posts, {
-  status: z.enum(["draft", "published"]),
-}).omit({ id: true, createdAt: true, updatedAt: true });
-
-export const updatePostSchema = insertPostSchema.partial();
+export const insertPostSchema = createInsertSchema(posts);
+export const updatePostSchema = createUpdateSchema(posts).extend(
+  postIdSchema.shape,
+);
 
 // Types inferred from schemas
+export type PostId = z.infer<typeof postIdSchema>;
 export type Post = z.infer<typeof selectPostSchema>;
 export type InsertPost = z.infer<typeof insertPostSchema>;
 export type UpdatePost = z.infer<typeof updatePostSchema>;

@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { Badge } from "@/components/ui/badge";
@@ -11,15 +11,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useTRPC } from "@/trpc/react";
+import { listPostsQueryOptions } from "@/server/posts";
 
 export const Route = createFileRoute("/example/posts/")({
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(listPostsQueryOptions());
+  },
   component: PostsIndex,
 });
 
 function PostsIndex() {
-  const trpc = useTRPC();
-  const { data: posts, isLoading } = useQuery(trpc.posts.list.queryOptions());
+  const { data: posts } = useSuspenseQuery(listPostsQueryOptions());
 
   return (
     <div className="container mx-auto py-8">
@@ -27,7 +29,7 @@ function PostsIndex() {
         <div>
           <h1 className="text-3xl font-bold">Posts</h1>
           <p className="text-muted-foreground">
-            Manage your blog posts with Drizzle ORM + tRPC
+            Manage your blog posts with Drizzle ORM + Server Functions
           </p>
         </div>
         <Button>New Post</Button>
@@ -45,23 +47,17 @@ function PostsIndex() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading ? (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center">
-                  Loading...
-                </TableCell>
-              </TableRow>
-            ) : posts?.length === 0 ? (
+            {posts.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={5}
-                  className="text-muted-foreground text-center"
+                  className="text-center text-muted-foreground"
                 >
                   No posts found. Create your first post to get started.
                 </TableCell>
               </TableRow>
             ) : (
-              posts?.map((post) => (
+              posts.map((post) => (
                 <TableRow key={post.id}>
                   <TableCell className="font-medium">{post.id}</TableCell>
                   <TableCell>

@@ -11,11 +11,6 @@
     "Neon": {
       "command": "npx",
       "args": ["-y", "mcp-remote@latest", "https://mcp.neon.tech/mcp"]
-    },
-    "tessl": {
-      "type": "stdio",
-      "command": "tessl",
-      "args": ["mcp", "start"]
     }
   }
 }

@@ -16,7 +16,7 @@ function FirstName() {
       onChange={(e) => {
         store.setState((state) => ({ ...state, firstName: e.target.value }));
       }}
-      className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 placeholder-white/40 outline-none transition-colors duration-200 hover:border-white/40 focus:border-white/60"
+      className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 placeholder-white/40 transition-colors duration-200 outline-none hover:border-white/40 focus:border-white/60"
     />
   );
 }
@@ -30,7 +30,7 @@ function LastName() {
       onChange={(e) => {
         store.setState((state) => ({ ...state, lastName: e.target.value }));
       }}
-      className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 placeholder-white/40 outline-none transition-colors duration-200 hover:border-white/40 focus:border-white/60"
+      className="rounded-lg border border-white/20 bg-white/10 px-4 py-2 placeholder-white/40 transition-colors duration-200 outline-none hover:border-white/40 focus:border-white/60"
     />
   );
 }
@@ -51,7 +51,7 @@ function DemoStore() {
           "radial-gradient(50% 50% at 80% 80%, #f4a460 0%, #8b4513 70%, #1a0f0a 100%)",
       }}
     >
-      <div className="min-w-1/2 flex flex-col gap-4 rounded-xl bg-white/10 p-8 text-3xl shadow-lg backdrop-blur-lg">
+      <div className="flex min-w-1/2 flex-col gap-4 rounded-xl bg-white/10 p-8 text-3xl shadow-lg backdrop-blur-lg">
         <h1 className="mb-5 text-4xl font-bold">Store Example</h1>
         <FirstName />
         <LastName />

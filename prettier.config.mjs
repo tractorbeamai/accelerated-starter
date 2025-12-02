@@ -16,7 +16,7 @@ const config = {
     "",
     "^[./]",
   ],
-  tailwindStylesheet: "./src/styles/globals.css",
+  tailwindStylesheet: "./src/styles.css",
 };
 
 export default config;

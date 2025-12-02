@@ -1,285 +1,68 @@
 # AGENTS.md
 
-## Prototype Philosophy
+## Philosophy
 
-**This is a demo/prototype project, NOT production software.**
+This is a demo/prototype project, NOT production software.
 
-Our goal is to build visually impressive, fire demos that get potential customers excited. We're not building real products that need to be maintained or used in production.
+Build for impact, not perfection:
 
-**Build for impact, not perfection:**
+- Prioritize visual polish and wow factor
+- Focus on happy path only
+- Skip edge cases unless they break the demo
+- A beautiful demo in 2 days beats a perfect product never
 
-- prioritize visual polish and delightful experiences
-- focus on core value and happy path only
-- don't handle edge cases or error states unless they break the demo
-- keep it simple to build quickly
-- use AI features prominently to showcase capabilities
-- rely on shadcn/ui defaults for instant polish
-- use Tailwind animations for micro-interactions
-- use Motion (formerly framer-motion) to animate components and create smooth transitions
-- prioritize "wow factor" over robustness
+## Working Guidelines
 
-Remember: A beautiful, working demo shown in 2 days beats a perfect product delivered never.
+- Use pnpm (not npm or yarn)
+- Prefer small diffs over large rewrites
+- Preserve existing code style and patterns
+- Use `cn()` from `@/lib/utils` for className merging
+- Client-only rendering - no SSR or server-side React
 
-### Do
+Do not modify:
 
-- use React 19 with functional components and hooks
-- use TanStack Start (the React Start framework) for routing and server functions
-- **CLIENT-ONLY RENDERING**: React components render only on the client - NO SSR or RSC
-- server functions (tRPC, API routes) run on the server, but React renders client-side only
-- use TanStack Router for navigation with `Link` component
-- use TanStack Store for state management with `new Store()` and `useStore()` hook
-- use TanStack Query for data fetching and caching
-- use Drizzle ORM for database access with PostgreSQL
-- use drizzle-zod to auto-generate Zod schemas from Drizzle tables
-- use Tailwind CSS v4 for all styling with semantic color variables (e.g., `bg-primary`, `text-foreground`)
-- use shadcn/ui components (new-york style) - add via `pnpx shadcn@latest add component-name`
-- use `cn()` utility from `@/lib/utils` for className merging - never use template literals in className
-- use lucide-react for icons
-- use Motion (formerly framer-motion) for component animations and page transitions - install with `pnpm add motion`
-- use tRPC for type-safe API routes
-- use `@ai-sdk/anthropic` and `@ai-sdk/react` for AI features
-- use path aliases with `@/` prefix (e.g., `@/components`, `@/lib/utils`)
-- use pnpm as the package manager
-- default to small, focused components over large multi-purpose ones
-- default to small diffs - avoid large rewrites unless explicitly requested
-- preserve existing code style and patterns
-- use strict TypeScript with proper typing
+- `src/components/ui/` - managed by shadcn CLI
+- `src/routeTree.gen.ts` - auto-generated
 
-### Don't
+## Commands
 
-- do not use template literals in className (ESLint will error) - use `cn()` instead
-- do not hard code colors - use Tailwind's semantic variables from `src/styles.css`
-- do not use class components - use functional components with hooks
-- do not use other state management libraries like Redux, Zustand, or MobX
-- do not use npm or yarn - use pnpm
-- do not add heavy dependencies without approval
-- do not use array index as React keys
-- do not create generic `div` wrappers when shadcn/ui components exist
-- do not modify files in `src/components/ui/` - these are managed by shadcn CLI
-- do not modify `src/routeTree.gen.ts` - it's auto-generated
-- do not use inline styles - use Tailwind classes
-- **do not render React on the server** - keep React client-only
+```bash
+pnpm dev                              # start dev server
+pnpm db:push                          # push schema to database (dev)
+pnpm lint:eslint path/to/file.tsx     # lint a file
+pnpm format:prettier path/to/file.tsx # format a file
+pnpm lint:types path/to/file.tsx      # type check a file
+```
 
-### Commands
+## Database Workflow
 
-# Type check - file scoped preferred
+**Local development:** Use `pnpm db:push` to sync schema changes directly.
 
-pnpm exec tsc --noEmit path/to/file.tsx
+**Before deploying:** Run `pnpm db:generate` to create migration files, commit them, then `pnpm db:migrate` in production.
 
-# Format - file scoped preferred
+## Do / Do Not
 
-pnpm exec prettier --write path/to/file.tsx
+Do:
 
-# Lint - file scoped preferred
+- Use functional components with hooks
+- Use TanStack Store for state (`new Store()`, `useStore()`)
+- Use server functions in `src/server/` with `createServerFn`
+- Use drizzle-zod to generate Zod schemas from Drizzle tables
+- Use Motion for animations
 
-pnpm exec eslint --fix path/to/file.tsx
+Do not:
 
-# Full project checks when explicitly requested
+- Use Redux, Zustand, or other state libraries
+- Use array index as React keys
+- Add heavy dependencies without approval
+- Use inline styles instead of Tailwind
 
-pnpm lint:types # type check all files
-pnpm lint:eslint # lint all files
-pnpm lint:format # check formatting
-pnpm lint # run all lints
-pnpm build # build for production
+## Finding Patterns
 
-# Database commands
+See README.md for:
 
-pnpm db:generate # generate migration from schema changes
-pnpm db:migrate # apply migrations to database
-pnpm db:push # push schema directly (no migrations)
-pnpm db:studio # open Drizzle Studio GUI
+- Project structure
+- Full command reference
+- Code patterns (routing, server functions, state, AI)
 
-# Dev server
-
-pnpm dev # or pnpm start (starts instantly, no need to wait)
-
-# Docker commands
-
-docker-compose up -d # start postgres database in background
-docker-compose down # stop postgres database
-docker-compose logs -f postgres # view postgres logs
-
-Note: Always type check, format, and lint updated files. Use full builds sparingly.
-
-### Project structure
-
-- `src/routes/__root.tsx` - root layout with Header and Outlet
-- `src/routes/index.tsx` - home page
-- `src/routes/` - all routes (file-based routing via TanStack Router)
-- `src/routeTree.gen.ts` - auto-generated route tree (don't edit directly)
-- `src/router.tsx` - router configuration
-- `src/components/` - shared components
-- `src/components/ui/` - shadcn/ui components (managed by CLI, don't edit directly)
-- `src/components/ai-elements/` - AI-powered UI components (conversation, message, prompt-input, response)
-- `src/components/Header.tsx` - main navigation header
-- `src/db/` - database layer with Drizzle ORM
-- `src/db/schema.ts` - Drizzle table schemas with drizzle-zod integration
-- `src/db/client.ts` - database connection and Drizzle instance
-- `src/db/seed.ts` - database seeding script
-- `src/lib/` - utilities and helper functions
-- `src/lib/utils.ts` - utility functions including `cn()` for className merging
-- `src/lib/env-client.ts` - client-side environment variables
-- `src/lib/env-server.ts` - server-side environment variables
-- `src/lib/demo-store.ts` - example TanStack Store (safe to delete)
-- `src/store/` - TanStack Store state management
-- `src/trpc/` - tRPC setup and router (includes Drizzle examples)
-- `src/styles.css` - global styles and Tailwind configuration with CSS variables
-- `src/data/` - static data and mock data
-- `src/utils/` - additional utilities
-- `migrations/` - database migrations (auto-generated)
-- `drizzle.config.ts` - Drizzle Kit configuration
-- `components.json` - shadcn/ui configuration
-- `vite.config.ts` - Vite configuration
-- `tsconfig.json` - TypeScript configuration
-
-### Good examples (copy these patterns)
-
-- `src/components/Header.tsx` - navigation with TanStack Router Link components
-- `src/routes/example/chat.tsx` - AI chat interface with streaming
-- `src/routes/example/posts/` - dynamic routes with Drizzle ORM + tRPC + shadcn/ui
-- `src/routes/example/store.tsx` - TanStack Store with derived state
-- `src/lib/demo-store.ts` - TanStack Store usage pattern
-- `src/db/schema.ts` - Drizzle schema with drizzle-zod integration
-- `src/trpc/router.ts` - tRPC routers with Drizzle ORM examples
-- `src/components/ui/button.tsx` - shadcn component with cn() utility
-
-### Routing (TanStack Router)
-
-- file-based routing in `src/routes/`
-- create route: add file like `src/routes/about.tsx`
-- route files export `Route` via `createFileRoute('/path')`
-- nested routes: use folders like `src/routes/example.guitars/$guitarId.tsx`
-- navigation: use `<Link to="/path">` from `@tanstack/react-router`
-- loaders: use for data prefetching (runs before component renders)
-- layouts: `__root.tsx` wraps all routes via `<Outlet />`
-- route tree is auto-generated in `src/routeTree.gen.ts`
-- **client-only rendering**: all React renders on the client, no SSR
-- **ClientOnly component**: wrap browser-only components with `<ClientOnly fallback={...}>` to prevent SSR issues
-
-### Server Routes (TanStack Start)
-
-- server routes handle HTTP requests (API endpoints, authentication, etc.)
-- defined in `src/routes/` alongside app routes using `createFileRoute`
-- **ALWAYS use `server.handlers` pattern, NOT `createAPIFileRoute`**
-- example pattern:
-  ```typescript
-  export const Route = createFileRoute("/api/chat")({
-    server: {
-      handlers: {
-        POST: async ({ request }) => {
-          const body = await request.json();
-          return new Response(JSON.stringify({ data }));
-        },
-      },
-    },
-  });
-  ```
-- supports GET, POST, PUT, PATCH, DELETE methods
-- can combine with component routes in same file
-- use `json()` helper from `@tanstack/react-start` for JSON responses
-- access path params via `({ params })` in handler
-- server routes follow same file conventions as app routes
-
-### State (TanStack Store)
-
-- create store: `export const myStore = new Store(initialValue)`
-- use in component: `const value = useStore(myStore)`
-- update state: `myStore.setState(newValue)` or `myStore.setState(prev => newValue)`
-- derived state: use `new Derived({ fn: () => ..., deps: [...] })` then `.mount()`
-- example: `src/store/example-assistant.ts`
-
-### Styling with Tailwind CSS v4
-
-- use Tailwind utility classes exclusively
-- use semantic color variables: `bg-primary`, `text-foreground`, `border-border`, etc.
-- all CSS variables defined in `src/styles.css`
-- dark mode: automatically handled via `.dark` class and CSS variables
-- use `cn()` from `@/lib/utils` to merge classes: `cn("base-class", conditionalClass && "conditional")`
-- responsive: use Tailwind breakpoints (`sm:`, `md:`, `lg:`, etc.)
-- never use template literals in className - ESLint will error
-
-### shadcn/ui components
-
-- add new components: `pnpx shadcn@latest add component-name`
-- components live in `src/components/ui/`
-- do not manually edit files in `src/components/ui/`
-- re-run add command to update components
-- configuration in `components.json`
-- style: "new-york", uses lucide-react icons
-- all components use `cn()` utility for className handling
-
-### tRPC for API routes
-
-- router defined in `src/trpc/router.ts`
-- create procedures with `publicProcedure` from `src/trpc/init.ts`
-- use zod for input validation (or drizzle-zod for database operations)
-- use in components via `trpc` from route context
-- example router: see `guitarRouter` and `postRouter` in `src/trpc/router.ts`
-- type safety: types are auto-inferred from router
-- **tRPC runs on the server** - only React rendering is client-only
-
-### Drizzle ORM for database
-
-- schema defined in `src/db/schema.ts` using Drizzle table definitions
-- use `createInsertSchema` and `createSelectSchema` from `drizzle-zod` to auto-generate Zod schemas
-- database client exported from `src/db/client.ts` as `db`
-- use Drizzle query builder for type-safe SQL queries
-- integrate with tRPC by using drizzle-zod schemas as procedure inputs
-- migrations stored in `migrations/` directory (auto-generated via `pnpm db:generate`)
-- example: see `postRouter` in `src/trpc/router.ts` for Drizzle + tRPC + Zod integration
-
-**CRITICAL: Database Migration Workflow**
-
-**During Local Development:**
-
-- **ALWAYS use `pnpm db:push`** to sync schema changes to your local database
-- This is FAST and iterates quickly without creating migration files
-- Changes are applied directly to the database without generating migration history
-- Use this for all local development and prototyping work
-
-**Before Deploying or Pushing to Git:**
-
-- **MUST generate migrations** before deployment/pushing code
-- Run `pnpm db:generate` to create migration files from schema changes
-- This creates proper migration files in `migrations/` directory
-- Commit these migration files to git
-- In production/staging, use `pnpm db:migrate` to apply migrations
-- Never use `pnpm db:push` in production - it bypasses migration history
-
-**Summary:**
-
-- Local dev: `pnpm db:push` (fast, no migrations)
-- Before deploy: `pnpm db:generate` → commit migrations → deploy → `pnpm db:migrate`
-
-### AI integration
-
-- uses `@ai-sdk/anthropic` for Claude AI
-- uses `@ai-sdk/react` for React hooks like `useChat`
-- requires `ANTHROPIC_API_KEY` in `.env`
-- example: `src/components/example-AIAssistant.tsx`
-- markdown rendering: use `streamdown` component for streaming markdown
-
-### TypeScript
-
-- strict mode enabled with path aliases `@/*` mapping to `src/*`
-- prefer explicit types over `any`, use `type` for objects, `interface` for extensible definitions
-- avoid `ts-ignore` without good reason
-
-### When stuck
-
-- ask a clarifying question rather than making assumptions
-- propose a plan for complex changes before implementing
-- if uncertain about an API or pattern, look for similar examples in the codebase
-- do not push speculative changes without confirmation
-
-### Demo files
-
-- files prefixed with `demo` or `example` can be safely deleted if not needed
-- they exist to demonstrate features and patterns
-- good references for learning project patterns
-- `src/routes/example/` directory contains example routes showcasing various features
-- `src/db/schema.ts` contains an example `posts` table - replace with your own schema
-
-# Agent Rules <!-- tessl-managed -->
-
-@.tessl/RULES.md follow the [instructions](.tessl/RULES.md)
+See `src/routes/example/` for working reference implementations.
