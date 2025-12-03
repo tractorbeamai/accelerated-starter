@@ -10,7 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { Analytics } from "@vercel/analytics/react";
 
-import Header from "@/components/header";
+import Header from "@/components/Header";
 import appCss from "@/styles.css?url";
 
 export const Route = createRootRouteWithContext<{
