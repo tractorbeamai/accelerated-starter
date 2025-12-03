@@ -22,20 +22,26 @@ A modern React starter template for building visually impressive demos quickly. 
 
 ### Prerequisites
 
-- Node.js v22.12.0+
+- Node.js v22.12.0+ ([Download Node.js](https://nodejs.org/en/download))
 - pnpm (`npm install -g pnpm`)
+- GitHub and Vercel accounts
 - Vercel CLI (`npm install -g vercel`)
 - Anthropic API key ([console.anthropic.com](https://console.anthropic.com/settings/keys))
 
-### 1. Deploy to Vercel
+### 1. Create your project with Vercel
 
 [![Deploy with Vercel](https://vercel.com/button)](<https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Ftractorbeamai%2Faccelerated-starter&env=ANTHROPIC_API_KEY&envDescription=API%20key%20for%20Anthropic%20Claude%20(required%20for%20AI%20features)&envLink=https%3A%2F%2Fconsole.anthropic.com%2Fsettings%2Fkeys&project-name=accelerated-starter&products=%5B%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22storage%22%2C%22productSlug%22%3A%22neon%22%2C%22integrationSlug%22%3A%22neon%22%7D%5D>)
 
 1. Click the **Deploy with Vercel** button above
 2. Sign in to Vercel and GitHub if needed
-3. When prompted, configure the Neon Postgres integration:
-   - Set **Auth** to `false`
-   - Check **Branch for Preview** only (leave Production unchecked)
+3. You will be prompted to configure details on your project setup:
+   - Choose GitHub as your git provider, select your git workspace, and assign a name to your repo
+   - Choose your Vercel team and click **Create**
+4. In **Add Products**, you should see **Neon**. Click **Add** and configure the following settings:
+   - Keep **Region** as the default
+   - Set **Auth** to `false`, click "Continue"
+   - Keep **Database Name (*)** as the default name, click "Create"
+   - Check the **Preview** box for the **Create Database Branch For Deployment** section, keep everything else as is. Click "Connect"
 4. Enter your `ANTHROPIC_API_KEY` when prompted
 5. Click **Deploy**
 
