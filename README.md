@@ -40,10 +40,10 @@ A modern React starter template for building visually impressive demos quickly. 
 4. In **Add Products**, you should see **Neon**. Click **Add** and configure the following settings:
    - Keep **Region** as the default
    - Set **Auth** to `false`, click "Continue"
-   - Keep **Database Name (*)** as the default name, click "Create"
+   - Keep **Database Name (\*)** as the default name, click "Create"
    - Check the **Preview** box for the **Create Database Branch For Deployment** section, keep everything else as is. Click "Connect"
-4. Enter your `ANTHROPIC_API_KEY` when prompted
-5. Click **Deploy**
+5. Enter your `ANTHROPIC_API_KEY` when prompted
+6. Click **Deploy**
 
 This will:
 
@@ -52,11 +52,13 @@ This will:
 - Provision a Neon Postgres database with branching
 - Deploy your app
 
+Once deployment has completed, go to the project in Vercel and click the **Repository** button to navigate to the repository in GitHub
+
 ### 2. Clone your repo locally
 
 ```bash
 git clone <your-repo-url>
-cd accelerated-starter
+cd <your-repo>
 ```
 
 ### 3. Install dependencies
@@ -69,14 +71,17 @@ pnpm install
 
 ```bash
 vercel link    # Select your deployed project when prompted
-vercel env pull    # Creates .env.local with DATABASE_URL
 ```
+
+When prompted to pull environment variables now, select **Yes**
 
 ### 5. Add Anthropic key to local env
 
 ```bash
 echo "ANTHROPIC_API_KEY=your_key_here" >> .env.local
 ```
+
+Replace `your_key_here` with your actual API key
 
 ### 6. Set up the database
 
