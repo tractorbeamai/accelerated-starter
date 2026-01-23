@@ -1,4 +1,4 @@
-# Macomnics
+# vibestarter 
 
 A modern React starter template for building visually impressive demos quickly. Built with TanStack Start, React 19, shadcn/ui, Tailwind CSS v4, and Claude.
 
