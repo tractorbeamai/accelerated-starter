@@ -8,12 +8,8 @@ import {
   timestamp,
   uuid,
 } from "drizzle-orm/pg-core";
-import {
-  createInsertSchema,
-  createSelectSchema,
-  createUpdateSchema,
-} from "drizzle-zod";
-import * as z from "zod";
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
+import { z } from "zod";
 
 // Example posts table with drizzle-zod integration
 export const posts = pgTable("posts", {
@@ -33,9 +29,7 @@ export const postIdSchema = z.object({
 });
 export const selectPostSchema = createSelectSchema(posts);
 export const insertPostSchema = createInsertSchema(posts);
-export const updatePostSchema = createUpdateSchema(posts).extend(
-  postIdSchema.shape,
-);
+export const updatePostSchema = createUpdateSchema(posts).extend(postIdSchema.shape);
 
 // Types inferred from schemas
 export type PostId = z.infer<typeof postIdSchema>;
@@ -92,9 +86,7 @@ export const candidates = pgTable("candidates", {
   aiAnalysis: jsonb("ai_analysis").$type<AIAnalysis>(),
   qualified: boolean("qualified"),
   status: text("status", { enum: candidateStatusEnum }).default("new"),
-  pipelineStage: text("pipeline_stage", { enum: pipelineStageEnum }).default(
-    "new_submissions",
-  ),
+  pipelineStage: text("pipeline_stage", { enum: pipelineStageEnum }).default("new_submissions"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -117,9 +109,7 @@ export const candidateIdSchema = z.object({
 });
 export const selectCandidateSchema = createSelectSchema(candidates);
 export const insertCandidateSchema = createInsertSchema(candidates);
-export const updateCandidateSchema = createUpdateSchema(candidates).extend(
-  candidateIdSchema.shape,
-);
+export const updateCandidateSchema = createUpdateSchema(candidates).extend(candidateIdSchema.shape);
 
 // Types for candidates
 export type CandidateId = z.infer<typeof candidateIdSchema>;

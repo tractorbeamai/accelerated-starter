@@ -14,11 +14,9 @@ import {
   type Post,
 } from "@/db/schema";
 
-export const listPosts = createServerFn({ method: "GET" }).handler(
-  async (): Promise<Post[]> => {
-    return await db.select().from(posts);
-  },
-);
+export const listPosts = createServerFn({ method: "GET" }).handler(async (): Promise<Post[]> => {
+  return await db.select().from(posts);
+});
 
 export const findPostById = createServerFn({ method: "GET" })
   .inputValidator(postIdSchema)
@@ -40,11 +38,7 @@ export const createPost = createServerFn({ method: "POST" })
 export const updatePost = createServerFn({ method: "POST" })
   .inputValidator(updatePostSchema)
   .handler(async ({ data: { id, ...updateData } }): Promise<Post> => {
-    const [post] = await db
-      .update(posts)
-      .set(updateData)
-      .where(eq(posts.id, id))
-      .returning();
+    const [post] = await db.update(posts).set(updateData).where(eq(posts.id, id)).returning();
     if (!post) {
       throw new Error("Post not found");
     }

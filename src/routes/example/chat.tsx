@@ -1,29 +1,47 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, useCallback, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { DefaultChatTransport } from "ai";
-import { MessageSquare } from "lucide-react";
+import { ArrowUpIcon, MessageSquareIcon } from "lucide-react";
+import { Streamdown } from "streamdown";
 
+import { Bubble, BubbleContent } from "@/components/ui/bubble";
 import {
-  Conversation,
-  ConversationContent,
-  ConversationEmptyState,
-  ConversationScrollButton,
-} from "@/components/ai-elements/conversation";
-import { Message, MessageContent } from "@/components/ai-elements/message";
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import {
-  PromptInput,
-  PromptInputMessage,
-  PromptInputSubmit,
-  PromptInputTextarea,
-} from "@/components/ai-elements/prompt-input";
-import { Response } from "@/components/ai-elements/response";
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
+import { Message, MessageContent } from "@/components/ui/message";
+import {
+  MessageScroller,
+  MessageScrollerButton,
+  MessageScrollerContent,
+  MessageScrollerItem,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller";
+import { Spinner } from "@/components/ui/spinner";
 
 export const Route = createFileRoute("/example/chat")({
   component: ChatPage,
 });
+
+function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    event.currentTarget.form?.requestSubmit();
+  }
+}
 
 function ChatPage() {
   const [input, setInput] = useState("");
@@ -32,77 +50,108 @@ function ChatPage() {
       api: "/example/api/chat",
     }),
   });
+  const isBusy = status === "submitted" || status === "streaming";
 
-  const handleSubmit = (
-    message: PromptInputMessage,
-    event: FormEvent<HTMLFormElement>,
-  ) => {
-    event.preventDefault();
-    const text = message.text?.trim();
-    if (text) {
-      sendMessage({ text });
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+
+      const text = input.trim();
+      if (!text || isBusy) {
+        return;
+      }
+
+      void sendMessage({ text });
       setInput("");
-    }
-  };
+    },
+    [input, isBusy, sendMessage],
+  );
+  const handleInputChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(event.currentTarget.value);
+  }, []);
 
   return (
-    <div className="relative mx-auto size-full h-[600px] max-w-4xl rounded-lg border p-6">
-      <div className="flex h-full flex-col">
-        <Conversation>
-          <ConversationContent>
-            {messages.length === 0 ? (
-              <ConversationEmptyState
-                icon={<MessageSquare className="size-12" />}
-                title="Start a conversation"
-                description="Type a message below to begin chatting"
-              />
-            ) : (
-              messages.map((message) => (
-                <Message from={message.role} key={message.id}>
-                  <MessageContent>
-                    {message.parts?.map((part) => {
-                      switch (part.type) {
-                        case "text": {
-                          return (
-                            <Response
-                              key={`${message.id}-text-${part.text.slice(0, 20)}`}
-                            >
-                              {part.text}
-                            </Response>
-                          );
-                        }
-                        default: {
-                          return null;
-                        }
-                      }
-                    })}
-                  </MessageContent>
-                </Message>
-              ))
-            )}
-          </ConversationContent>
-          <ConversationScrollButton />
-        </Conversation>
+    <div className="mx-auto flex h-[600px] w-full max-w-4xl flex-col rounded-xl border bg-card">
+      <MessageScrollerProvider>
+        <MessageScroller>
+          <MessageScrollerViewport>
+            <MessageScrollerContent className="p-6">
+              {messages.length === 0 ? (
+                <Empty>
+                  <EmptyHeader>
+                    <EmptyMedia variant="icon">
+                      <MessageSquareIcon />
+                    </EmptyMedia>
+                    <EmptyTitle>Start a conversation</EmptyTitle>
+                    <EmptyDescription>Type a message below to begin chatting.</EmptyDescription>
+                  </EmptyHeader>
+                </Empty>
+              ) : (
+                messages.map((message) => {
+                  const isUser = message.role === "user";
 
-        <PromptInput
-          onSubmit={handleSubmit}
-          className="relative mx-auto mt-4 w-full max-w-2xl"
-        >
-          <PromptInputTextarea
-            value={input}
+                  return (
+                    <MessageScrollerItem
+                      key={message.id}
+                      messageId={message.id}
+                      scrollAnchor={isUser}
+                    >
+                      <Message align={isUser ? "end" : "start"}>
+                        <MessageContent>
+                          {message.parts.map((part) =>
+                            part.type === "text" ? (
+                              <Bubble
+                                key={`${message.id}-${part.type}`}
+                                variant={isUser ? "default" : "ghost"}
+                              >
+                                <BubbleContent>
+                                  {isUser ? (
+                                    <span className="whitespace-pre-wrap">{part.text}</span>
+                                  ) : (
+                                    <Streamdown animated isAnimating={status === "streaming"}>
+                                      {part.text}
+                                    </Streamdown>
+                                  )}
+                                </BubbleContent>
+                              </Bubble>
+                            ) : null,
+                          )}
+                        </MessageContent>
+                      </Message>
+                    </MessageScrollerItem>
+                  );
+                })
+              )}
+            </MessageScrollerContent>
+          </MessageScrollerViewport>
+          <MessageScrollerButton />
+        </MessageScroller>
+      </MessageScrollerProvider>
+
+      <form className="border-t p-4" onSubmit={handleSubmit}>
+        <InputGroup>
+          <InputGroupTextarea
+            aria-label="Message"
+            className="min-h-20"
+            disabled={isBusy}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
             placeholder="Say something..."
-            onChange={(e) => {
-              setInput(e.currentTarget.value);
-            }}
-            className="pr-12"
+            value={input}
           />
-          <PromptInputSubmit
-            status={status === "streaming" ? "streaming" : "ready"}
-            disabled={!input.trim()}
-            className="absolute right-1 bottom-1"
-          />
-        </PromptInput>
-      </div>
+          <InputGroupAddon align="block-end" className="justify-end">
+            <InputGroupButton
+              aria-label="Send message"
+              disabled={!input.trim() || isBusy}
+              size="icon-sm"
+              type="submit"
+              variant="default"
+            >
+              {isBusy ? <Spinner /> : <ArrowUpIcon />}
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      </form>
     </div>
   );
 }

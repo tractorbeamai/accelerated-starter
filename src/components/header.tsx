@@ -17,11 +17,11 @@ export default function Header() {
         </div>
 
         <div className="px-2 font-bold">
-          <Link to="/example/posts">Posts</Link>
+          <Link to="/example/form">Form</Link>
         </div>
 
         <div className="px-2 font-bold">
-          <Link to="/example/store">Store</Link>
+          <Link to="/example/posts">Posts</Link>
         </div>
       </nav>
     </header>

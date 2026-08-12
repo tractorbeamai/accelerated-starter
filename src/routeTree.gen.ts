@@ -10,48 +10,16 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as JoinIndexRouteImport } from './routes/join/index'
-import { Route as AdminIndexRouteImport } from './routes/admin/index'
-import { Route as JoinReviewRouteImport } from './routes/join/review'
-import { Route as JoinConversationRouteImport } from './routes/join/conversation'
-import { Route as ExampleStoreRouteImport } from './routes/example/store'
 import { Route as ExampleRestApiRouteImport } from './routes/example/rest-api'
+import { Route as ExampleFormRouteImport } from './routes/example/form'
 import { Route as ExampleChatRouteImport } from './routes/example/chat'
-import { Route as AdminPipelineRouteImport } from './routes/admin/pipeline'
-import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as ExamplePostsIndexRouteImport } from './routes/example/posts/index'
 import { Route as ExamplePostsPostIdRouteImport } from './routes/example/posts/$postId'
 import { Route as ExampleApiChatRouteImport } from './routes/example/api.chat'
-import { Route as AdminCandidatesIdRouteImport } from './routes/admin/candidates.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const JoinIndexRoute = JoinIndexRouteImport.update({
-  id: '/join/',
-  path: '/join/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/admin/',
-  path: '/admin/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const JoinReviewRoute = JoinReviewRouteImport.update({
-  id: '/join/review',
-  path: '/join/review',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const JoinConversationRoute = JoinConversationRouteImport.update({
-  id: '/join/conversation',
-  path: '/join/conversation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExampleStoreRoute = ExampleStoreRouteImport.update({
-  id: '/example/store',
-  path: '/example/store',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExampleRestApiRoute = ExampleRestApiRouteImport.update({
@@ -59,19 +27,14 @@ const ExampleRestApiRoute = ExampleRestApiRouteImport.update({
   path: '/example/rest-api',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExampleFormRoute = ExampleFormRouteImport.update({
+  id: '/example/form',
+  path: '/example/form',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExampleChatRoute = ExampleChatRouteImport.update({
   id: '/example/chat',
   path: '/example/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminPipelineRoute = AdminPipelineRouteImport.update({
-  id: '/admin/pipeline',
-  path: '/admin/pipeline',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminDashboardRoute = AdminDashboardRouteImport.update({
-  id: '/admin/dashboard',
-  path: '/admin/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExamplePostsIndexRoute = ExamplePostsIndexRouteImport.update({
@@ -89,40 +52,21 @@ const ExampleApiChatRoute = ExampleApiChatRouteImport.update({
   path: '/example/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminCandidatesIdRoute = AdminCandidatesIdRouteImport.update({
-  id: '/admin/candidates/$id',
-  path: '/admin/candidates/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
-  '/admin/pipeline': typeof AdminPipelineRoute
   '/example/chat': typeof ExampleChatRoute
+  '/example/form': typeof ExampleFormRoute
   '/example/rest-api': typeof ExampleRestApiRoute
-  '/example/store': typeof ExampleStoreRoute
-  '/join/conversation': typeof JoinConversationRoute
-  '/join/review': typeof JoinReviewRoute
-  '/admin': typeof AdminIndexRoute
-  '/join': typeof JoinIndexRoute
-  '/admin/candidates/$id': typeof AdminCandidatesIdRoute
   '/example/api/chat': typeof ExampleApiChatRoute
   '/example/posts/$postId': typeof ExamplePostsPostIdRoute
   '/example/posts': typeof ExamplePostsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
-  '/admin/pipeline': typeof AdminPipelineRoute
   '/example/chat': typeof ExampleChatRoute
+  '/example/form': typeof ExampleFormRoute
   '/example/rest-api': typeof ExampleRestApiRoute
-  '/example/store': typeof ExampleStoreRoute
-  '/join/conversation': typeof JoinConversationRoute
-  '/join/review': typeof JoinReviewRoute
-  '/admin': typeof AdminIndexRoute
-  '/join': typeof JoinIndexRoute
-  '/admin/candidates/$id': typeof AdminCandidatesIdRoute
   '/example/api/chat': typeof ExampleApiChatRoute
   '/example/posts/$postId': typeof ExamplePostsPostIdRoute
   '/example/posts': typeof ExamplePostsIndexRoute
@@ -130,16 +74,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
-  '/admin/pipeline': typeof AdminPipelineRoute
   '/example/chat': typeof ExampleChatRoute
+  '/example/form': typeof ExampleFormRoute
   '/example/rest-api': typeof ExampleRestApiRoute
-  '/example/store': typeof ExampleStoreRoute
-  '/join/conversation': typeof JoinConversationRoute
-  '/join/review': typeof JoinReviewRoute
-  '/admin/': typeof AdminIndexRoute
-  '/join/': typeof JoinIndexRoute
-  '/admin/candidates/$id': typeof AdminCandidatesIdRoute
   '/example/api/chat': typeof ExampleApiChatRoute
   '/example/posts/$postId': typeof ExamplePostsPostIdRoute
   '/example/posts/': typeof ExamplePostsIndexRoute
@@ -148,48 +85,27 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/admin/dashboard'
-    | '/admin/pipeline'
     | '/example/chat'
+    | '/example/form'
     | '/example/rest-api'
-    | '/example/store'
-    | '/join/conversation'
-    | '/join/review'
-    | '/admin'
-    | '/join'
-    | '/admin/candidates/$id'
     | '/example/api/chat'
     | '/example/posts/$postId'
     | '/example/posts'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin/dashboard'
-    | '/admin/pipeline'
     | '/example/chat'
+    | '/example/form'
     | '/example/rest-api'
-    | '/example/store'
-    | '/join/conversation'
-    | '/join/review'
-    | '/admin'
-    | '/join'
-    | '/admin/candidates/$id'
     | '/example/api/chat'
     | '/example/posts/$postId'
     | '/example/posts'
   id:
     | '__root__'
     | '/'
-    | '/admin/dashboard'
-    | '/admin/pipeline'
     | '/example/chat'
+    | '/example/form'
     | '/example/rest-api'
-    | '/example/store'
-    | '/join/conversation'
-    | '/join/review'
-    | '/admin/'
-    | '/join/'
-    | '/admin/candidates/$id'
     | '/example/api/chat'
     | '/example/posts/$postId'
     | '/example/posts/'
@@ -197,16 +113,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminDashboardRoute: typeof AdminDashboardRoute
-  AdminPipelineRoute: typeof AdminPipelineRoute
   ExampleChatRoute: typeof ExampleChatRoute
+  ExampleFormRoute: typeof ExampleFormRoute
   ExampleRestApiRoute: typeof ExampleRestApiRoute
-  ExampleStoreRoute: typeof ExampleStoreRoute
-  JoinConversationRoute: typeof JoinConversationRoute
-  JoinReviewRoute: typeof JoinReviewRoute
-  AdminIndexRoute: typeof AdminIndexRoute
-  JoinIndexRoute: typeof JoinIndexRoute
-  AdminCandidatesIdRoute: typeof AdminCandidatesIdRoute
   ExampleApiChatRoute: typeof ExampleApiChatRoute
   ExamplePostsPostIdRoute: typeof ExamplePostsPostIdRoute
   ExamplePostsIndexRoute: typeof ExamplePostsIndexRoute
@@ -221,41 +130,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/join/': {
-      id: '/join/'
-      path: '/join'
-      fullPath: '/join'
-      preLoaderRoute: typeof JoinIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/': {
-      id: '/admin/'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/join/review': {
-      id: '/join/review'
-      path: '/join/review'
-      fullPath: '/join/review'
-      preLoaderRoute: typeof JoinReviewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/join/conversation': {
-      id: '/join/conversation'
-      path: '/join/conversation'
-      fullPath: '/join/conversation'
-      preLoaderRoute: typeof JoinConversationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/example/store': {
-      id: '/example/store'
-      path: '/example/store'
-      fullPath: '/example/store'
-      preLoaderRoute: typeof ExampleStoreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/example/rest-api': {
       id: '/example/rest-api'
       path: '/example/rest-api'
@@ -263,25 +137,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExampleRestApiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/example/form': {
+      id: '/example/form'
+      path: '/example/form'
+      fullPath: '/example/form'
+      preLoaderRoute: typeof ExampleFormRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/example/chat': {
       id: '/example/chat'
       path: '/example/chat'
       fullPath: '/example/chat'
       preLoaderRoute: typeof ExampleChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/pipeline': {
-      id: '/admin/pipeline'
-      path: '/admin/pipeline'
-      fullPath: '/admin/pipeline'
-      preLoaderRoute: typeof AdminPipelineRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/dashboard': {
-      id: '/admin/dashboard'
-      path: '/admin/dashboard'
-      fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof AdminDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/example/posts/': {
@@ -305,28 +172,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExampleApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/candidates/$id': {
-      id: '/admin/candidates/$id'
-      path: '/admin/candidates/$id'
-      fullPath: '/admin/candidates/$id'
-      preLoaderRoute: typeof AdminCandidatesIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminDashboardRoute: AdminDashboardRoute,
-  AdminPipelineRoute: AdminPipelineRoute,
   ExampleChatRoute: ExampleChatRoute,
+  ExampleFormRoute: ExampleFormRoute,
   ExampleRestApiRoute: ExampleRestApiRoute,
-  ExampleStoreRoute: ExampleStoreRoute,
-  JoinConversationRoute: JoinConversationRoute,
-  JoinReviewRoute: JoinReviewRoute,
-  AdminIndexRoute: AdminIndexRoute,
-  JoinIndexRoute: JoinIndexRoute,
-  AdminCandidatesIdRoute: AdminCandidatesIdRoute,
   ExampleApiChatRoute: ExampleApiChatRoute,
   ExamplePostsPostIdRoute: ExamplePostsPostIdRoute,
   ExamplePostsIndexRoute: ExamplePostsIndexRoute,

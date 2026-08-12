@@ -3,29 +3,19 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { findPostByIdQueryOptions } from "@/server/posts";
 
 export const Route = createFileRoute("/example/posts/$postId")({
   loader: async ({ params: { postId }, context }) => {
-    await context.queryClient.ensureQueryData(
-      findPostByIdQueryOptions({ id: Number(postId) }),
-    );
+    await context.queryClient.ensureQueryData(findPostByIdQueryOptions({ id: Number(postId) }));
   },
   component: PostDetail,
 });
 
 function PostDetail() {
   const { postId } = Route.useParams();
-  const { data: post } = useSuspenseQuery(
-    findPostByIdQueryOptions({ id: +postId }),
-  );
+  const { data: post } = useSuspenseQuery(findPostByIdQueryOptions({ id: +postId }));
 
   if (!post) {
     return (
@@ -33,14 +23,10 @@ function PostDetail() {
         <Card>
           <CardHeader>
             <CardTitle>Post Not Found</CardTitle>
-            <CardDescription>
-              The post you're looking for doesn't exist.
-            </CardDescription>
+            <CardDescription>The post you're looking for doesn't exist.</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button asChild>
-              <Link to="/example/posts">Back to Posts</Link>
-            </Button>
+            <Button render={<Link to="/example/posts" />}>Back to Posts</Button>
           </CardContent>
         </Card>
       </div>
@@ -50,8 +36,8 @@ function PostDetail() {
   return (
     <div className="container mx-auto py-8">
       <div className="mb-4">
-        <Button variant="ghost" asChild>
-          <Link to="/example/posts">&larr; Back to Posts</Link>
+        <Button variant="ghost" render={<Link to="/example/posts" />}>
+          &larr; Back to Posts
         </Button>
       </div>
 
@@ -69,21 +55,15 @@ function PostDetail() {
                 })}
               </CardDescription>
             </div>
-            <Badge
-              variant={post.status === "published" ? "default" : "secondary"}
-            >
+            <Badge variant={post.status === "published" ? "default" : "secondary"}>
               {post.status}
             </Badge>
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
           <div>
-            <h3 className="mb-2 text-sm font-medium text-muted-foreground">
-              Content
-            </h3>
-            <p className="whitespace-pre-wrap text-foreground">
-              {post.content}
-            </p>
+            <h3 className="mb-2 text-sm font-medium text-muted-foreground">Content</h3>
+            <p className="whitespace-pre-wrap text-foreground">{post.content}</p>
           </div>
 
           <div className="flex items-center gap-4 border-t pt-6 text-sm text-muted-foreground">

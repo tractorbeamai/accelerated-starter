@@ -1,5 +1,4 @@
 {
-  // TanStack Router generated file exclusions
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true
   },
@@ -9,37 +8,25 @@
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true
   },
-
-  // Editor settings
+  "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSaveMode": "file",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
+    "source.fixAll.oxc": "explicit",
     "source.organizeImports": "never"
   },
-
-  // ESLint settings
-  "eslint.enable": true,
-
-  // Prettier settings
-  "prettier.enable": true,
-  "prettier.requireConfig": true,
-
-  // Language-specific settings
   "[javascript][javascriptreact][typescript][typescriptreact][json][jsonc][css][markdown][tailwindcss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "oxc.oxc-vscode"
   },
-
-  // Tailwind CSS settings
+  "oxc.disableNestedConfig": true,
+  "oxc.fmt.disableNestedConfig": true,
+  "oxc.fmt.configPath": "./vite.config.ts",
+  "npm.scriptRunner": "vp",
   "files.associations": {
     "*.css": "tailwindcss"
   },
   "tailwindCSS.classFunctions": ["cn", "cva"],
-
-  // TypeScript settings
   "typescript.tsdk": "node_modules/typescript/lib",
-
-  // File settings
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "files.trimTrailingWhitespace": true

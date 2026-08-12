@@ -1,9 +1,7 @@
-import * as z from "zod";
+import { z } from "zod";
 
 export const envClientSchema = z.object({
-  VITE_NODE_ENV: z
-    .enum(["development", "production", "test"])
-    .default("development"),
+  VITE_NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
 });
 
 const result = envClientSchema.safeParse({

@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { createServerFn } from "@tanstack/react-start";
 import { desc, eq } from "drizzle-orm";
-import * as z from "zod";
+import { z } from "zod";
 
 import { db } from "@/db/client";
 import {
@@ -34,14 +34,7 @@ const candidateStageSchema = z.object({
 
 const updateStatusSchema = z.object({
   id: z.uuid(),
-  status: z.enum([
-    "new",
-    "reviewing",
-    "qualified",
-    "contacted",
-    "rejected",
-    "placed",
-  ]),
+  status: z.enum(["new", "reviewing", "qualified", "contacted", "rejected", "placed"]),
 });
 
 const updatePipelineSchema = z.object({
@@ -83,10 +76,7 @@ export const createCandidate = createServerFn({ method: "POST" })
       pipelineStage: screeningResult.qualified ? "new_submissions" : undefined,
     };
 
-    const [candidate] = await db
-      .insert(candidates)
-      .values(candidateData)
-      .returning();
+    const [candidate] = await db.insert(candidates).values(candidateData).returning();
 
     return candidate;
   });
@@ -95,11 +85,7 @@ export const createCandidate = createServerFn({ method: "POST" })
 export const getCandidate = createServerFn({ method: "GET" })
   .inputValidator(candidateIdSchema)
   .handler(async ({ data: { id } }): Promise<Candidate | null> => {
-    const [candidate] = await db
-      .select()
-      .from(candidates)
-      .where(eq(candidates.id, id))
-      .limit(1);
+    const [candidate] = await db.select().from(candidates).where(eq(candidates.id, id)).limit(1);
 
     return candidate ?? null;
   });
@@ -107,10 +93,7 @@ export const getCandidate = createServerFn({ method: "GET" })
 // Get all candidates
 export const getCandidates = createServerFn({ method: "GET" }).handler(
   async (): Promise<Candidate[]> => {
-    return await db
-      .select()
-      .from(candidates)
-      .orderBy(desc(candidates.createdAt));
+    return await db.select().from(candidates).orderBy(desc(candidates.createdAt));
   },
 );
 
@@ -168,10 +151,7 @@ export const saveIntakeResponse = createServerFn({ method: "POST" })
       response: data.response,
     };
 
-    const [intakeResponse] = await db
-      .insert(intakeResponses)
-      .values(responseData)
-      .returning();
+    const [intakeResponse] = await db.insert(intakeResponses).values(responseData).returning();
 
     return intakeResponse;
   });

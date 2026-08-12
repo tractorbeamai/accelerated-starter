@@ -186,8 +186,7 @@ const mockCandidates: MockCandidate[] = [
       },
       {
         questionKey: "pe_exposure",
-        questionText:
-          "Have you worked directly with private equity firms before?",
+        questionText: "Have you worked directly with private equity firms before?",
         response:
           "Yes - both as an advisor at Deloitte where I did QofE work for dozens of PE deals, and now as a portfolio company CFO reporting to PE board members. I'm very comfortable with the PE operating model and reporting cadence.",
       },
@@ -528,16 +527,8 @@ const mockCandidates: MockCandidate[] = [
       seniority: 3,
       functionalDepth: 4,
       cultureSignals: 5,
-      strengths: [
-        "Strong academic credentials",
-        "IB experience",
-        "Due diligence exposure",
-      ],
-      concerns: [
-        "Less than 5 years experience",
-        "Still in school",
-        "No management experience",
-      ],
+      strengths: ["Strong academic credentials", "IB experience", "Due diligence exposure"],
+      concerns: ["Less than 5 years experience", "Still in school", "No management experience"],
       reasons: ["Insufficient experience level"],
     },
     qualified: false,
@@ -642,12 +633,8 @@ async function seed() {
 
   console.log("\n✅ Seeding complete!");
   console.log(`   ${mockCandidates.length} candidates created`);
-  console.log(
-    `   ${mockCandidates.filter((c) => c.qualified).length} qualified`,
-  );
-  console.log(
-    `   ${mockCandidates.filter((c) => !c.qualified).length} not qualified`,
-  );
+  console.log(`   ${mockCandidates.filter((c) => c.qualified).length} qualified`);
+  console.log(`   ${mockCandidates.filter((c) => !c.qualified).length} not qualified`);
 
   process.exit(0);
 }

@@ -49,10 +49,7 @@ function PostsIndex() {
           <TableBody>
             {posts.length === 0 ? (
               <TableRow>
-                <TableCell
-                  colSpan={5}
-                  className="text-center text-muted-foreground"
-                >
+                <TableCell colSpan={5} className="text-center text-muted-foreground">
                   No posts found. Create your first post to get started.
                 </TableCell>
               </TableRow>
@@ -64,11 +61,7 @@ function PostsIndex() {
                     <div className="max-w-[500px] truncate">{post.title}</div>
                   </TableCell>
                   <TableCell>
-                    <Badge
-                      variant={
-                        post.status === "published" ? "default" : "secondary"
-                      }
-                    >
+                    <Badge variant={post.status === "published" ? "default" : "secondary"}>
                       {post.status}
                     </Badge>
                   </TableCell>
@@ -80,13 +73,14 @@ function PostsIndex() {
                     })}
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button variant="ghost" size="sm" asChild>
-                      <Link
-                        to="/example/posts/$postId"
-                        params={{ postId: post.id.toString() }}
-                      >
-                        View
-                      </Link>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      render={
+                        <Link to="/example/posts/$postId" params={{ postId: post.id.toString() }} />
+                      }
+                    >
+                      View
                     </Button>
                   </TableCell>
                 </TableRow>

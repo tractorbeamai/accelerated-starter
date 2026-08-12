@@ -1,4 +1,5 @@
 # Agent Instructions
+
 ## Philosophy
 
 This is a demo/prototype project, NOT production software.
@@ -28,9 +29,10 @@ Do not modify:
 ```bash
 pnpm dev                              # start dev server
 pnpm db:push                          # push schema to database (dev)
-pnpm lint:eslint path/to/file.tsx     # lint a file
-pnpm format:prettier path/to/file.tsx # format a file
-pnpm lint:types path/to/file.tsx      # type check a file
+pnpm lint path/to/file.tsx            # lint a file with Oxlint
+pnpm format path/to/file.tsx          # format a file with Oxfmt
+pnpm typecheck                        # type check the project
+pnpm check                            # run all static checks
 ```
 
 ## Database Workflow
@@ -44,10 +46,9 @@ pnpm lint:types path/to/file.tsx      # type check a file
 Do:
 
 - Use functional components with hooks
-- Use TanStack Store for state (`new Store()`, `useStore()`)
+- Use React hooks for local state and TanStack Query for server state
 - Use server functions in `src/server/` with `createServerFn`
 - Use drizzle-zod to generate Zod schemas from Drizzle tables
-- Use Motion for animations
 
 Do not:
 

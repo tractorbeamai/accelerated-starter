@@ -150,9 +150,7 @@ function containsAny(text: string, patterns: string[]): boolean {
 
 function countMatches(text: string, patterns: string[]): number {
   const normalized = normalizeText(text);
-  return patterns.filter((pattern) =>
-    normalized.includes(pattern.toLowerCase()),
-  ).length;
+  return patterns.filter((pattern) => normalized.includes(pattern.toLowerCase())).length;
 }
 
 function estimateYearsExperience(text: string): number {
@@ -161,7 +159,7 @@ function estimateYearsExperience(text: string): number {
   // Look for explicit years mentions
   const yearsPatterns = [
     /(\d+)\+?\s*years?\s*(of)?\s*(experience|exp)/gi,
-    /experience\s*[:\-]?\s*(\d+)\+?\s*years?/gi,
+    /experience\s*[:-]?\s*(\d+)\+?\s*years?/gi,
   ];
 
   let maxYears = 0;
@@ -247,16 +245,10 @@ export function screenResume(resumeText: string): ScreeningResult {
     strengths.push("Track record of leadership responsibility");
   }
 
-  const functionalMatches = countMatches(
-    resumeText,
-    STRONG_SIGNALS.functionalAreas,
-  );
+  const functionalMatches = countMatches(resumeText, STRONG_SIGNALS.functionalAreas);
   if (functionalMatches >= 2) {
     strongSignalCount++;
-    functionalDepth = Math.max(
-      functionalDepth,
-      7 + Math.min(functionalMatches, 3),
-    );
+    functionalDepth = Math.max(functionalDepth, 7 + Math.min(functionalMatches, 3));
     reasons.push("Strong functional expertise");
     strengths.push("Deep functional knowledge in key areas");
   }
@@ -301,8 +293,7 @@ export function screenResume(resumeText: string): ScreeningResult {
   }
 
   // Calculate overall score (0-100)
-  const rawScore =
-    peExposure * 3 + seniority * 3 + functionalDepth * 2 + cultureSignals * 2;
+  const rawScore = peExposure * 3 + seniority * 3 + functionalDepth * 2 + cultureSignals * 2;
   const normalizedScore = Math.min(Math.round((rawScore / 100) * 100), 100);
 
   // Ensure minimum scores for qualified candidates
@@ -314,9 +305,7 @@ export function screenResume(resumeText: string): ScreeningResult {
   }
 
   // Final score adjustment
-  const finalScore = qualified
-    ? Math.max(normalizedScore, 60)
-    : Math.min(normalizedScore, 45);
+  const finalScore = qualified ? Math.max(normalizedScore, 60) : Math.min(normalizedScore, 45);
 
   return {
     qualified,
