@@ -58,7 +58,7 @@ const saveIntakeResponseSchema = z.object({
 
 // Create a new candidate with resume screening
 export const createCandidate = createServerFn({ method: "POST" })
-  .inputValidator(createCandidateSchema)
+  .validator(createCandidateSchema)
   .handler(async ({ data }): Promise<Candidate> => {
     // Screen the resume
     const screeningResult = screenResume(data.resumeText);
@@ -83,7 +83,7 @@ export const createCandidate = createServerFn({ method: "POST" })
 
 // Get a single candidate by ID
 export const getCandidate = createServerFn({ method: "GET" })
-  .inputValidator(candidateIdSchema)
+  .validator(candidateIdSchema)
   .handler(async ({ data: { id } }): Promise<Candidate | null> => {
     const [candidate] = await db.select().from(candidates).where(eq(candidates.id, id)).limit(1);
 
@@ -99,7 +99,7 @@ export const getCandidates = createServerFn({ method: "GET" }).handler(
 
 // Get candidates by pipeline stage
 export const getCandidatesByStage = createServerFn({ method: "GET" })
-  .inputValidator(candidateStageSchema)
+  .validator(candidateStageSchema)
   .handler(async ({ data: { stage } }): Promise<Candidate[]> => {
     return await db
       .select()
@@ -110,7 +110,7 @@ export const getCandidatesByStage = createServerFn({ method: "GET" })
 
 // Update candidate status
 export const updateCandidateStatus = createServerFn({ method: "POST" })
-  .inputValidator(updateStatusSchema)
+  .validator(updateStatusSchema)
   .handler(async ({ data: { id, status } }): Promise<Candidate> => {
     const [candidate] = await db
       .update(candidates)
@@ -126,7 +126,7 @@ export const updateCandidateStatus = createServerFn({ method: "POST" })
 
 // Update candidate pipeline stage
 export const updateCandidatePipeline = createServerFn({ method: "POST" })
-  .inputValidator(updatePipelineSchema)
+  .validator(updatePipelineSchema)
   .handler(async ({ data: { id, pipelineStage } }): Promise<Candidate> => {
     const [candidate] = await db
       .update(candidates)
@@ -142,7 +142,7 @@ export const updateCandidatePipeline = createServerFn({ method: "POST" })
 
 // Save an intake response
 export const saveIntakeResponse = createServerFn({ method: "POST" })
-  .inputValidator(saveIntakeResponseSchema)
+  .validator(saveIntakeResponseSchema)
   .handler(async ({ data }): Promise<IntakeResponse> => {
     const responseData: InsertIntakeResponse = {
       candidateId: data.candidateId,
@@ -158,7 +158,7 @@ export const saveIntakeResponse = createServerFn({ method: "POST" })
 
 // Get intake responses for a candidate
 export const getIntakeResponses = createServerFn({ method: "GET" })
-  .inputValidator(candidateIdSchema)
+  .validator(candidateIdSchema)
   .handler(async ({ data: { id } }): Promise<IntakeResponse[]> => {
     return await db
       .select()

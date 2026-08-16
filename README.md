@@ -20,8 +20,8 @@ Neon Postgres, a TanStack Form example, and an optional streaming AI chat exampl
 
 ### Requirements
 
-- Node.js 22.12 or newer
-- pnpm 10.18 or newer
+- Node.js 24.11 or newer within Node 24
+- pnpm 11.22 or newer
 - A Neon database
 - An Anthropic API key if you want to run the chat example
 

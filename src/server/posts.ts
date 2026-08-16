@@ -19,14 +19,14 @@ export const listPosts = createServerFn({ method: "GET" }).handler(async (): Pro
 });
 
 export const findPostById = createServerFn({ method: "GET" })
-  .inputValidator(postIdSchema)
+  .validator(postIdSchema)
   .handler(async ({ data: { id } }): Promise<Post | null> => {
     const result = await db.select().from(posts).where(eq(posts.id, id));
     return result[0] ?? null;
   });
 
 export const createPost = createServerFn({ method: "POST" })
-  .inputValidator(insertPostSchema)
+  .validator(insertPostSchema)
   .handler(async ({ data }): Promise<Post> => {
     const [post] = await db.insert(posts).values(data).returning();
     if (!post) {
@@ -36,7 +36,7 @@ export const createPost = createServerFn({ method: "POST" })
   });
 
 export const updatePost = createServerFn({ method: "POST" })
-  .inputValidator(updatePostSchema)
+  .validator(updatePostSchema)
   .handler(async ({ data: { id, ...updateData } }): Promise<Post> => {
     const [post] = await db.update(posts).set(updateData).where(eq(posts.id, id)).returning();
     if (!post) {
@@ -46,7 +46,7 @@ export const updatePost = createServerFn({ method: "POST" })
   });
 
 export const deletePost = createServerFn({ method: "POST" })
-  .inputValidator(postIdSchema)
+  .validator(postIdSchema)
   .handler(async ({ data: { id } }): Promise<Post> => {
     const [post] = await db.delete(posts).where(eq(posts.id, id)).returning();
     if (!post) {

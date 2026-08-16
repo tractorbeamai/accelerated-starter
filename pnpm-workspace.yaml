@@ -1,8 +1,8 @@
-onlyBuiltDependencies:
-  - "@parcel/watcher"
-  - "@tailwindcss/oxide"
-  - esbuild
-  - msw
+allowBuilds:
+  esbuild: true
+  lightningcss: true
+  msw: false
+  unrs-resolver: true
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@0.2.9
   vite-plus: 0.2.9

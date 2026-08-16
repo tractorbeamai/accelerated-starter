@@ -1,6 +1,12 @@
 import { anthropic } from "@ai-sdk/anthropic";
 import { createFileRoute } from "@tanstack/react-router";
-import { convertToModelMessages, streamText, UIMessage } from "ai";
+import {
+  convertToModelMessages,
+  createUIMessageStreamResponse,
+  streamText,
+  toUIMessageStream,
+  type UIMessage,
+} from "ai";
 
 export const Route = createFileRoute("/example/api/chat")({
   server: {
@@ -10,10 +16,12 @@ export const Route = createFileRoute("/example/api/chat")({
 
         const result = streamText({
           model: anthropic("claude-sonnet-4-5-20250929"),
-          messages: convertToModelMessages(messages),
+          messages: await convertToModelMessages(messages),
         });
 
-        return result.toUIMessageStreamResponse();
+        return createUIMessageStreamResponse({
+          stream: toUIMessageStream({ stream: result.stream }),
+        });
       },
     },
   },

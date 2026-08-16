@@ -10,21 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ExampleRestApiRouteImport } from './routes/example/rest-api'
-import { Route as ExampleFormRouteImport } from './routes/example/form'
 import { Route as ExampleChatRouteImport } from './routes/example/chat'
+import { Route as ExampleFormRouteImport } from './routes/example/form'
+import { Route as ExampleRestApiRouteImport } from './routes/example/rest-api'
+import { Route as ExampleApiChatRouteImport } from './routes/example/api.chat'
 import { Route as ExamplePostsIndexRouteImport } from './routes/example/posts/index'
 import { Route as ExamplePostsPostIdRouteImport } from './routes/example/posts/$postId'
-import { Route as ExampleApiChatRouteImport } from './routes/example/api.chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ExampleRestApiRoute = ExampleRestApiRouteImport.update({
-  id: '/example/rest-api',
-  path: '/example/rest-api',
+const ExampleChatRoute = ExampleChatRouteImport.update({
+  id: '/example/chat',
+  path: '/example/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExampleFormRoute = ExampleFormRouteImport.update({
@@ -32,9 +32,14 @@ const ExampleFormRoute = ExampleFormRouteImport.update({
   path: '/example/form',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ExampleChatRoute = ExampleChatRouteImport.update({
-  id: '/example/chat',
-  path: '/example/chat',
+const ExampleRestApiRoute = ExampleRestApiRouteImport.update({
+  id: '/example/rest-api',
+  path: '/example/rest-api',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExampleApiChatRoute = ExampleApiChatRouteImport.update({
+  id: '/example/api/chat',
+  path: '/example/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExamplePostsIndexRoute = ExamplePostsIndexRouteImport.update({
@@ -47,11 +52,6 @@ const ExamplePostsPostIdRoute = ExamplePostsPostIdRouteImport.update({
   path: '/example/posts/$postId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ExampleApiChatRoute = ExampleApiChatRouteImport.update({
-  id: '/example/api/chat',
-  path: '/example/api/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,7 +60,7 @@ export interface FileRoutesByFullPath {
   '/example/rest-api': typeof ExampleRestApiRoute
   '/example/api/chat': typeof ExampleApiChatRoute
   '/example/posts/$postId': typeof ExamplePostsPostIdRoute
-  '/example/posts': typeof ExamplePostsIndexRoute
+  '/example/posts/': typeof ExamplePostsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -90,7 +90,7 @@ export interface FileRouteTypes {
     | '/example/rest-api'
     | '/example/api/chat'
     | '/example/posts/$postId'
-    | '/example/posts'
+    | '/example/posts/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -130,11 +130,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/example/rest-api': {
-      id: '/example/rest-api'
-      path: '/example/rest-api'
-      fullPath: '/example/rest-api'
-      preLoaderRoute: typeof ExampleRestApiRouteImport
+    '/example/chat': {
+      id: '/example/chat'
+      path: '/example/chat'
+      fullPath: '/example/chat'
+      preLoaderRoute: typeof ExampleChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/example/form': {
@@ -144,17 +144,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExampleFormRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/example/chat': {
-      id: '/example/chat'
-      path: '/example/chat'
-      fullPath: '/example/chat'
-      preLoaderRoute: typeof ExampleChatRouteImport
+    '/example/rest-api': {
+      id: '/example/rest-api'
+      path: '/example/rest-api'
+      fullPath: '/example/rest-api'
+      preLoaderRoute: typeof ExampleRestApiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/example/api/chat': {
+      id: '/example/api/chat'
+      path: '/example/api/chat'
+      fullPath: '/example/api/chat'
+      preLoaderRoute: typeof ExampleApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/example/posts/': {
       id: '/example/posts/'
       path: '/example/posts'
-      fullPath: '/example/posts'
+      fullPath: '/example/posts/'
       preLoaderRoute: typeof ExamplePostsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -163,13 +170,6 @@ declare module '@tanstack/react-router' {
       path: '/example/posts/$postId'
       fullPath: '/example/posts/$postId'
       preLoaderRoute: typeof ExamplePostsPostIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/example/api/chat': {
-      id: '/example/api/chat'
-      path: '/example/api/chat'
-      fullPath: '/example/api/chat'
-      preLoaderRoute: typeof ExampleApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
